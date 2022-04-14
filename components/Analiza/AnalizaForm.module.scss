@@ -1,0 +1,22 @@
+@import '../../styles/variables';
+
+.intro {
+    margin-bottom: 20px;
+}
+
+.section {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+}
+.input {
+    background-color: $inputBg;
+    margin: 0.5rem auto;
+}
+
+.sendButton {
+    width: 70%;
+    max-width: 20rem;
+    display: flex;
+    margin: 1rem auto 0 auto;
+}

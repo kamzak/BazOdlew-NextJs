@@ -1,0 +1,31 @@
+.intro {
+  margin-bottom: 20px;
+}
+
+.section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+}
+
+.input {
+  background-color: rgba(236, 246, 252, 0.827);
+  margin: 0.5rem auto;
+}
+
+.sendButton {
+  width: 70%;
+  max-width: 20rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 1rem auto 0 auto;
+}
+/*# sourceMappingURL=AnalizaForm.module.css.map */
