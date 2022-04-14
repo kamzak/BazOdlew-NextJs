@@ -57,64 +57,64 @@ function AnalizaForm() {
           className={classes.input}
           required
           id="filled-required"
-          label="Nr wytopu"
-          placeholder="Np. 2324"
+          label="Mg [węgiel] [%]"
+          placeholder="udział % Mg"
         />
         <TextField
           className={classes.input}
           required
           id="filled-required"
-          label="Nr wytopu"
-          placeholder="Np. 2324"
+          label="P [węgiel] [%]"
+          placeholder="udział % P"
         />
         <TextField
           className={classes.input}
           required
           id="filled-required"
-          label="Nr wytopu"
-          placeholder="Np. 2324"
+          label="S [węgiel] [%]"
+          placeholder="udział % S"
         />
         <TextField
           className={classes.input}
           required
           id="filled-required"
-          label="Nr wytopu"
-          placeholder="Np. 2324"
+          label="Cu [węgiel] [%]"
+          placeholder="udział % Cu"
         />
         <TextField
           className={classes.input}
           required
           id="filled-required"
-          label="Nr wytopu"
-          placeholder="Np. 2324"
+          label="Ce [węgiel] [%]"
+          placeholder="udział % Ce"
         />
         <TextField
           className={classes.input}
           required
           id="filled-required"
-          label="Nr wytopu"
-          placeholder="Np. 2324"
+          label="La[węgiel] [%]"
+          placeholder="udział % La"
         />
         <TextField
           className={classes.input}
           required
           id="filled-required"
-          label="Nr wytopu"
-          placeholder="Np. 2324"
+          label="Zr [węgiel] [%]"
+          placeholder="udział % Zr"
         />
         <TextField
           className={classes.input}
           required
           id="filled-required"
-          label="Nr wytopu"
-          placeholder="Np. 2324"
+          label="Bi [węgiel] [%]"
+          placeholder="udział % Bi"
         />
         <TextField
           className={classes.input}
           required
           id="filled-required"
-          label="Nr wytopu"
-          placeholder="Np. 2324"
+          label="Ca [węgiel] [%]"
+          placeholder="udział % Ca"
         />
       </section>
       <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />}>

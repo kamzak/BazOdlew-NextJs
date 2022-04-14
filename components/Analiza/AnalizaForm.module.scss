@@ -1,9 +1,5 @@
 @import '../../styles/variables';
 
-.intro {
-    margin-bottom: 20px;
-}
-
 .section {
     display: flex;
     justify-content: center;
@@ -11,11 +7,12 @@
 }
 .input {
     background-color: $inputBg;
-    margin: 0.5rem auto;
+    margin: 0.5rem;
 }
 
 .sendButton {
     width: 70%;
+    height: 3rem;
     max-width: 20rem;
     display: flex;
     margin: 1rem auto 0 auto;

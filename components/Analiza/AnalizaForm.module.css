@@ -1,7 +1,3 @@
-.intro {
-  margin-bottom: 20px;
-}
-
 .section {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -17,11 +13,12 @@
 
 .input {
   background-color: rgba(236, 246, 252, 0.827);
-  margin: 0.5rem auto;
+  margin: 0.5rem;
 }
 
 .sendButton {
   width: 70%;
+  height: 3rem;
   max-width: 20rem;
   display: -webkit-box;
   display: -ms-flexbox;
