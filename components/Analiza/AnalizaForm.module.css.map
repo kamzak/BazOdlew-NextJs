@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AAAA,KAAK,CAAC;EACF,gBAAgB,EAAE,yBAAyB;EAC3C,aAAa,EAAE,MAAM;EACrB,OAAO,EAAE,IAAI;CAKhB;;AARD,AAII,KAJC,CAID,MAAM,CAAC;EACH,KAAK,EAAE,IAAI;EACX,UAAU,EAAE,IAAI;CACnB;;AAEL,AAAA,MAAM,CAAC;EACH,KAAK,EAAE,IAAI;EACX,gBAAgB,EAAE,uBAAuB;CAC5C",
+    "sources": [
+        "AnalizaForm.module.scss",
+        "../../styles/_variables.scss"
+    ],
+    "names": [],
+    "file": "AnalizaForm.module.css"
+}
