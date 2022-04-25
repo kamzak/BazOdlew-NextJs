@@ -13,7 +13,6 @@ const useInput = (
   const hasError = !valueIsValid && isTouched;
 
   const valueChangeHandler = (event) => {
-    console.log(event.target.value);
     if (event.target.value.length <= maxLength) {
       if (canBeNegative) {
         setEnteredValue(event.target.value);
