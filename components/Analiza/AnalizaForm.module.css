@@ -4,13 +4,33 @@
   padding: 1rem;
 }
 
-.grid button {
-  width: 100%;
+.grid .sendButton {
   margin-top: 1rem;
+  width: 100%;
 }
 
 .input {
   width: 100%;
   background-color: rgba(0, 64, 119, 0.027);
+}
+
+.infoWyt {
+  width: 2.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.infoWyt button:hover {
+  background-color: transparent;
+}
+
+.info {
+  position: absolute;
+  right: 2.4rem;
+  width: 1rem;
+}
+
+.info button:hover {
+  background-color: transparent;
 }
 /*# sourceMappingURL=AnalizaForm.module.css.map */

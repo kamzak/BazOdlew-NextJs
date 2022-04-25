@@ -1,21 +1,69 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Autocomplete from "@mui/material/Autocomplete";
+import Tooltip from '@mui/material/Tooltip';
+import InfoIcon from '@mui/icons-material/Info';
+import InputAdornment from "@mui/material/InputAdornment";
 import classes from "./AnalizaForm.module.css";
 import { database } from "../../config/firebase";
 import { ref, set } from "firebase/database";
 import useInput from "../../hooks/use-input";
+
+const GATUNKI = [
+  "GJL-150",
+  "GJL-200",
+  "GJL-250",
+  "GJL-300",
+  "GJL-350",
+  "GJS-400-15",
+  "GJS-400-18",
+  "GJS-400-18-LT",
+  "GJS-450-10",
+  "GJS-500-7",
+  "GJS-600-3",
+  "GJS-700-2",
+  "GJS-800-10",
+  "GJS-800-10-RT",
+  "GJS-900-8",
+  "GJS-1050-6",
+  "GJS-1200-3",
+  "GJS-1400-1",
+];
+
+const RODZAJE_METALI = [
+  "Żeliwo sferoidalne",
+  "Żeliwo ADI",
+  "Żeliwo szare",
+  "Żeliwo białe",
+  "Żeliwo wermikularne",
+  "Żeliwo SiMo",
+];
 
 function AnalizaForm() {
   const [nrWyt, setNrWyt] = useState("");
   const [wytTouched, setWytTouched] = useState(false);
   const [wytExist, setWytExist] = useState("");
 
-  const wytValid = nrWyt.trim() !== "" && wytExist === "";
+  const [gat, setGat] = useState("");
+  const [gatTouched, setGatTouched] = useState(false);
+
+  const [rodz, setRodz] = useState("");
+  const [rodzTouched, setRodzTouched] = useState(false);
+
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  const wytValid = nrWyt.trim() !== "";
   const wytInvalid = !wytValid && wytTouched;
+
+  const gatIsValid = gat !== null && gat !== "";
+  const gatInvalid = !gatIsValid && gatTouched;
+
+  const rodzIsValid = rodz !== null && rodz !== "";
+  const rodzInvalid = !rodzIsValid && rodzTouched;
 
   const wytBlur = () => {
     setWytTouched(true);
@@ -40,24 +88,24 @@ function AnalizaForm() {
   };
 
   // Gatunek
-  const {
-    value: gat,
-    isValid: gatIsValid,
-    hasError: gatHasError,
-    valueChangeHandler: gatChange,
-    inputBlurHandler: gatBlur,
-    reset: resetGat,
-  } = useInput((value) => value.trim() !== "", "25");
+  const gatChange = (event, value) => {
+    console.log(value);
+    setGat(value);
+  };
 
-  // Rodz metalu
-  const {
-    value: rodz,
-    isValid: rodzIsValid,
-    hasError: rodzHasError,
-    valueChangeHandler: rodzChange,
-    inputBlurHandler: rodzBlur,
-    reset: resetRodz,
-  } = useInput((value) => value.trim() !== "", "25");
+  const gatBlur = () => {
+    setGatTouched(true);
+  };
+
+  // Rodzaj metalu
+  const rodzChange = (event, value) => {
+    console.log(value);
+    setRodz(value);
+  };
+
+  const rodzBlur = () => {
+    setRodzTouched(true);
+  };
 
   // C
   const {
@@ -222,8 +270,12 @@ function AnalizaForm() {
 
     setNrWyt("");
     setWytTouched(false);
-    resetGat();
-    resetRodz();
+    setGat("");
+    setGatTouched(false);
+    gatChange(0, "");
+    setRodz("");
+    setRodzTouched(false);
+    rodzChange(0, "");
     resetC();
     resetSi();
     resetMn();
@@ -238,6 +290,46 @@ function AnalizaForm() {
     resetCa();
   };
 
+  useEffect(() => {
+    if (
+      wytValid &&
+      gatIsValid &&
+      rodzIsValid &&
+      CIsValid &&
+      SiIsValid &&
+      MnIsValid &&
+      MgIsValid &&
+      PIsValid &&
+      SIsValid &&
+      CuIsValid &&
+      CeIsValid &&
+      LaIsValid &&
+      ZrIsValid &&
+      BiIsValid &&
+      CaIsValid
+    ) {
+      setFormIsValid(true);
+    } else {
+      setFormIsValid(false);
+    }
+  }, [
+    wytValid,
+    gatIsValid,
+    rodzIsValid,
+    CIsValid,
+    SiIsValid,
+    MnIsValid,
+    MgIsValid,
+    PIsValid,
+    SIsValid,
+    CuIsValid,
+    CeIsValid,
+    LaIsValid,
+    ZrIsValid,
+    BiIsValid,
+    CaIsValid,
+  ]);
+
   return (
     <Fragment>
       <Box sx={{ flexGrow: 1 }} className={classes.grid}>
@@ -249,6 +341,7 @@ function AnalizaForm() {
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={wytInvalid}
               className={classes.input}
               required
               id="outlined-required"
@@ -261,36 +354,88 @@ function AnalizaForm() {
               sx={{
                 borderRadius: "5px 5px 0 0",
               }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.infoWyt}>
+                    <Tooltip placement="top" arrow title={"Numer wytopu musi zawierać od 1 do 6 cyfr"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon />
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
-            <TextField
+            <Autocomplete
+              id="free-solo-demo"
+              options={RODZAJE_METALI}
               className={classes.input}
-              required
-              id="outlined-required"
-              label="Rodzaj metalu"
-              placeholder="Np. sfero, ADI, szare"
+              freeSolo
               value={rodz}
               onChange={rodzChange}
               onBlur={rodzBlur}
-              variant="outlined"
+              defaultValue={""}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  error={rodzInvalid}
+                  required
+                  label="Rodzaj metalu"
+                  placeholder="Np. sfero, ADI, szare"
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <InputAdornment position="end" className={classes.info}>
+                        <Tooltip placement="top" arrow title={"Wpisz lub wybierz dany rodzaj metalu"}>
+                          <Button tabIndex={-1}>
+                            <InfoIcon/>
+                          </Button>
+                        </Tooltip>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
-            <TextField
+            <Autocomplete
+              id="free-solo-demo"
+              options={GATUNKI}
               className={classes.input}
-              required
-              id="outlined-required"
-              label="Gatunek"
-              placeholder="Np. GJS 500-7"
+              freeSolo
               value={gat}
               onChange={gatChange}
               onBlur={gatBlur}
-              variant="outlined"
+              defaultValue={""}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  error={gatInvalid}
+                  required
+                  label="Gatunek"
+                  placeholder="Np. GJS 500-7"
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <InputAdornment position="end" className={classes.info}>
+                        <Tooltip placement="top" arrow title={"Wpisz lub wybierz gatunek"}>
+                          <Button tabIndex={-1}>
+                            <InfoIcon/>
+                          </Button>
+                        </Tooltip>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={CHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -300,10 +445,22 @@ function AnalizaForm() {
               onChange={CChange}
               onBlur={CBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={SiHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -313,10 +470,22 @@ function AnalizaForm() {
               onChange={SiChange}
               onBlur={SiBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={MnHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -326,10 +495,22 @@ function AnalizaForm() {
               onChange={MnChange}
               onBlur={MnBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={MgHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -339,10 +520,22 @@ function AnalizaForm() {
               onChange={MgChange}
               onBlur={MgBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={PHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -352,10 +545,22 @@ function AnalizaForm() {
               onChange={PChange}
               onBlur={PBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={SHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -365,10 +570,22 @@ function AnalizaForm() {
               onChange={SChange}
               onBlur={SBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={CuHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -378,10 +595,22 @@ function AnalizaForm() {
               onChange={CuChange}
               onBlur={CuBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={CeHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -391,10 +620,22 @@ function AnalizaForm() {
               onChange={CeChange}
               onBlur={CeBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={LaHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -404,10 +645,22 @@ function AnalizaForm() {
               onChange={LaChange}
               onBlur={LaBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={ZrHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -417,10 +670,22 @@ function AnalizaForm() {
               onChange={ZrChange}
               onBlur={ZrBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={BiHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -430,10 +695,22 @@ function AnalizaForm() {
               onChange={BiChange}
               onBlur={BiBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <TextField
+              error={CaHasError}
               className={classes.input}
               required
               id="outlined-required"
@@ -443,28 +720,40 @@ function AnalizaForm() {
               onChange={CaChange}
               onBlur={CaBlur}
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.info}>
+                    <Tooltip placement="top" arrow title={"Zawartość procentowa pierwiastka. Wartość od 0 do 100. Maksymalnie do 5 cyfr po kropce"}>
+                      <Button tabIndex={-1}>
+                        <InfoIcon/>
+                      </Button>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
-          </Grid>
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Grid item  xs={12} md={3} lg={3}></Grid>
-            <Grid item  xs={12} md={6} lg={3}>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item xs={12} md={3} lg={3}></Grid>
+          <Grid item xs={12} md={6} lg={3}>
             <Button
               onClick={submitHandler}
               className={classes.sendButton}
               variant="contained"
               endIcon={<SendIcon />}
+              disabled={!formIsValid}
             >
               Dodaj wyniki
             </Button>
-            </Grid>
-            <Grid item  xs={12} md={3} lg={3}></Grid>
           </Grid>
+          <Grid item xs={12} md={3} lg={3}></Grid>
+        </Grid>
       </Box>
     </Fragment>
   );

@@ -1,0 +1,19 @@
+.hamburger {
+  -webkit-box-ordinal-group: 4;
+      -ms-flex-order: 3;
+          order: 3;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-right: 2rem;
+}
+
+.sideMenu {
+  visibility: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  .sideMenu {
+    visibility: visible;
+  }
+}
+/*# sourceMappingURL=SideMenu.module.css.map */
