@@ -89,11 +89,11 @@ function AnalizaForm() {
 
 	// Gatunek
 	const gatChange = (event, value) => {
-    if(value === null) {
-      setGat('');
-    } else {
-      setGat(value);
-    }
+		if (value === null) {
+			setGat('');
+		} else {
+			setGat(value);
+		}
 	};
 
 	const gatBlur = () => {
@@ -241,15 +241,14 @@ function AnalizaForm() {
 		}
 		// Formating date
 		const date = new Date();
-		const formatedDate = `${date.getDate()}/${
-			date.getMonth() + 1
-		}/${date.getFullYear()}`;
+		const formatedDate = `${date.getDate()}/${date.getMonth() + 1
+			}/${date.getFullYear()}`;
 
 		// Connecting database
 		const db = database;
 
 		// Adjusting db id
-		let id = parseInt(nrWyt) - 1;
+		let id = parseInt(nrWyt);
 
 		// Uploading data to Realtime Database
 		set(ref(db, "analizaNext/" + id), {
@@ -357,7 +356,7 @@ function AnalizaForm() {
 							onBlur={wytBlur}
 							value={nrWyt}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							sx={{
 								borderRadius: "5px 5px 0 0",
 							}}
@@ -436,7 +435,7 @@ function AnalizaForm() {
 							value={gat}
 							onChange={gatChange}
 							onBlur={gatBlur}
-              inputValue={gat}
+							inputValue={gat}
 							onInputChange={gatChange}
 							renderInput={(params) => (
 								<TextField
@@ -482,7 +481,7 @@ function AnalizaForm() {
 							onChange={CChange}
 							onBlur={CBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -517,7 +516,7 @@ function AnalizaForm() {
 							onChange={SiChange}
 							onBlur={SiBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -552,7 +551,7 @@ function AnalizaForm() {
 							onChange={MnChange}
 							onBlur={MnBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -587,7 +586,7 @@ function AnalizaForm() {
 							onChange={MgChange}
 							onBlur={MgBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -622,7 +621,7 @@ function AnalizaForm() {
 							onChange={PChange}
 							onBlur={PBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -657,7 +656,7 @@ function AnalizaForm() {
 							onChange={SChange}
 							onBlur={SBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -692,7 +691,7 @@ function AnalizaForm() {
 							onChange={CuChange}
 							onBlur={CuBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -727,7 +726,7 @@ function AnalizaForm() {
 							onChange={CeChange}
 							onBlur={CeBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -762,7 +761,7 @@ function AnalizaForm() {
 							onChange={LaChange}
 							onBlur={LaBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -797,7 +796,7 @@ function AnalizaForm() {
 							onChange={ZrChange}
 							onBlur={ZrBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -832,7 +831,7 @@ function AnalizaForm() {
 							onChange={BiChange}
 							onBlur={BiBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment
@@ -867,7 +866,7 @@ function AnalizaForm() {
 							onChange={CaChange}
 							onBlur={CaBlur}
 							variant="outlined"
-              autoComplete='off'
+							autoComplete='off'
 							InputProps={{
 								endAdornment: (
 									<InputAdornment

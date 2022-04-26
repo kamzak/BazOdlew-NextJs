@@ -71,7 +71,7 @@ function MainNavigation() {
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={handleClose}>
-                    <Link href="/">Struktura</Link>
+                    <Link href="/struktura">Struktura</Link>
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={handleClose}>

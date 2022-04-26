@@ -76,7 +76,7 @@ const SideMenu = () => {
         {user
           ? [
               <Link href="/analiza">Analiza składu chemicznego</Link>,
-              <Link href="/">Struktura</Link>,
+              <Link href="/struktura">Struktura</Link>,
               <Link href="/">Właściwości mechaniczne</Link>,
               <Link href="/">Podsumowanie</Link>,
             ].map((text, index) => (<Fragment key={index}>

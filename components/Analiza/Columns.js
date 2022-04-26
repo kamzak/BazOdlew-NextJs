@@ -1,6 +1,3 @@
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import { IconButton} from '@mui/material';
-
 export const columns = [
     {
       field: "wyt",
@@ -8,7 +5,7 @@ export const columns = [
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
-      width: 120,
+      width: 100,
     },
     {
       field: "gat",
@@ -16,7 +13,7 @@ export const columns = [
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
-      width: 150,
+      width: 120,
       editable: false,
     },
     {
@@ -31,7 +28,7 @@ export const columns = [
     {
       field: "C",
       headerName: "C",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -41,7 +38,7 @@ export const columns = [
     {
       field: "Si",
       headerName: "Si",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -51,7 +48,7 @@ export const columns = [
     {
       field: "Mn",
       headerName: "Mn",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -61,7 +58,7 @@ export const columns = [
     {
       field: "Mg",
       headerName: "Mg",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -71,7 +68,7 @@ export const columns = [
     {
       field: "P",
       headerName: "P",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -81,7 +78,7 @@ export const columns = [
     {
       field: "S",
       headerName: "S",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -91,7 +88,7 @@ export const columns = [
     {
       field: "Cu",
       headerName: "Cu",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -101,7 +98,7 @@ export const columns = [
     {
       field: "Ce",
       headerName: "Ce",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -111,7 +108,7 @@ export const columns = [
     {
       field: "La",
       headerName: "La",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -121,7 +118,7 @@ export const columns = [
     {
       field: "Zr",
       headerName: "Zr",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -131,7 +128,7 @@ export const columns = [
     {
       field: "Bi",
       headerName: "Bi",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -141,7 +138,7 @@ export const columns = [
     {
       field: "Ca",
       headerName: "Ca",
-      width: 70,
+      width: 30,
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
@@ -154,6 +151,6 @@ export const columns = [
       headerAlign: "center",
       align: "center",
       headerClassName: "tableHeader",
-      width: 210,
+      width: 150,
     },
   ];

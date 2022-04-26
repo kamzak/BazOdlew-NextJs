@@ -14,10 +14,11 @@ function AnalizaTable() {
   const deleteRows = (e) => {
     e.preventDefault();
     selectionModel.forEach((element) => {
-      const formatedElement = parseInt(element) - 1;
+      const formatedElement = parseInt(element);
+      console.log(formatedElement);
       remove(ref(db, "analizaNext/" + formatedElement)).then(
-        console.log("Usunieto wiersz: " + selectionModel)
-      );
+          console.log("Usunieto wiersz: " + selectionModel)
+        );
     });
   };
 
