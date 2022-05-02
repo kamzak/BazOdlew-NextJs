@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import AnalizaForm from "./AnalizaForm";
-import AnalizaTable from "./AnalizaTable";
-
+import MechForm from "./MechForm";
+import MechTable from "./MechTable";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -39,7 +38,7 @@ function a11yProps(index) {
   };
 }
 
-function Analiza() {
+function Mech() {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -92,14 +91,14 @@ function Analiza() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <AnalizaForm />
+          <MechForm />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <AnalizaTable />
+          <MechTable />
         </TabPanel>
       </Box>
     </Fragment>
   );
 }
 
-export default Analiza;
+export default Mech;

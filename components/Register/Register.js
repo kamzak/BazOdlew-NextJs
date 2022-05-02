@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 
 import { useAuth } from "../../context/AuthContext";
+import { useRouter } from 'next/router'
 
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -14,11 +15,22 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import classes from "./Register.module.css";
+import Link from "next/link";
+
+import Modal from "../Modals/Modal";
+import successIcon from '../static/success.png';
 
 function Register() {
   const { user, signUp } = useAuth();
+  const [error, setError] = useState(null);
 
-  console.log(user);
+  const [showAddAlert, setAddShowAlert] = useState(false);
+
+  const router = useRouter();
+
+  const showAlert = () => {
+    setAddShowAlert(prevState => !prevState);
+  }
 
   const [values, setValues] = useState({
     login: "",
@@ -46,9 +58,14 @@ function Register() {
   const signUpHandler = async (event) => {
     event.preventDefault();
     try {
-      await signUp(values.login, values.password)
+      setError(null);
+      await signUp(values.login, values.password);
+      setAddShowAlert(true);
+      setTimeout(() => setAddShowAlert(false), 5000);
+      setTimeout(() => router.push('/login'), 3000);
+     
     } catch (err) {
-      console.log(err);
+      setError(err);
     }
   };
 
@@ -59,11 +76,11 @@ function Register() {
         id="outlined-end-adornment"
         ref={emailRef}
         onChange={handleChange("login")}
-        sx={{ m: 1, width: "25ch" }}
+        sx={{ m: 1, width: "25ch", bgcolor: 'white' }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <AccountCircle />
+              <AccountCircle sx={{ ml: 0.25, mr: -0.5 }} />
             </InputAdornment>
           ),
         }}
@@ -75,9 +92,11 @@ function Register() {
           type={values.showPassword ? "text" : "password"}
           value={values.password}
           onChange={handleChange("password")}
+          sx={{ bgcolor: 'white' }}
           endAdornment={
             <InputAdornment position="end" >
               <IconButton
+                sx={{ ml: -0.75 }}
                 aria-label="toggle password visibility"
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
@@ -90,6 +109,7 @@ function Register() {
           label="Password"
         />
       </FormControl>
+      {error !== null && <span className={classes.error}>Wprowadzono nieprawidłowe dane!</span>}
       <Button
         onClick={signUpHandler}
         className={classes.sendButton}
@@ -98,6 +118,14 @@ function Register() {
       >
         Zarejestruj się
       </Button>
+      <div className={classes.registerButton}>
+        <Link href="/login">Zaloguj się</Link>
+      </div>
+      {showAddAlert && error === null && (
+        <Modal src={successIcon} onClose={showAlert}>
+          Utworzono konto! Możesz się zalogować
+        </Modal>
+      )}
     </div>
   );
 }

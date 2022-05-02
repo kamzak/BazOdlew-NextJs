@@ -14,3 +14,9 @@
       border-bottom: 1px solid #51c4d3;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .main {
+    width: 100%;
+  }
+}

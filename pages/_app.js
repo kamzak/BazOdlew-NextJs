@@ -4,6 +4,7 @@ import { AuthContextProvider } from "../context/AuthContext";
 import { useRouter } from "next/router";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 
+
 const noAuthRequired = ["/", "/login", "/register"];
 
 function MyApp({ Component, pageProps }) {
@@ -12,6 +13,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <AuthContextProvider>
       <Layout>
+        <div id="overlays"></div>
         {noAuthRequired.includes(router.pathname) ? (
           <Component {...pageProps} />
         ) : (

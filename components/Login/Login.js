@@ -25,6 +25,8 @@ function Login() {
   });
   const [showPassword, setShowPassword] = useState(false);
 
+  const [error, setError] = useState('');
+
   const router = useRouter();
   const emailRef = useRef();
 
@@ -48,8 +50,9 @@ function Login() {
     try {
       await login(values.login, values.password);
       router.push('/');
+      setError('');
     } catch (err) {
-      console.log(err);
+      setError(err);
     }
   };
 
@@ -59,12 +62,13 @@ function Login() {
         label="E-mail"
         id="outlined-end-adornment"
         ref={emailRef}
+        className={classes.input}
         onChange={handleChange("login")}
-        sx={{ m: 1, width: "25ch" }}
+        sx={{ m: 1, width: "25ch", bgcolor: 'white' }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <AccountCircle />
+              <AccountCircle sx={{ ml: 0.25, mr: -0.5 }} />
             </InputAdornment>
           ),
         }}
@@ -76,9 +80,11 @@ function Login() {
           type={showPassword ? "text" : "password"}
           value={values.password}
           onChange={handleChange("password")}
+          sx={{ bgcolor: 'white' }}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
+                sx={{ ml: -0.75 }}
                 aria-label="toggle password visibility"
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
@@ -91,6 +97,7 @@ function Login() {
           label="Password"
         />
       </FormControl>
+      {error && <span className={classes.error}>Wprowadzono nieprawidłowe dane!</span>}
       <Button
         onClick={loginHandler}
         className={classes.sendButton}
@@ -99,7 +106,9 @@ function Login() {
       >
         Zaloguj się
       </Button>
-      <Link href="/register">Zarejestruj się</Link>
+      <div className={classes.registerButton}>
+        <Link href="/register">Zarejestruj się</Link>
+      </div>
     </div>
   );
 }

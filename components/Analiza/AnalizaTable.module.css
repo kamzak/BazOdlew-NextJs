@@ -1,1 +1,26 @@
-/* No CSS *//*# sourceMappingURL=AnalizaTable.module.css.map */
+/* No CSS */
+.deletedModal {
+  background-color: #ffd600;
+  color: #180c00;
+}
+
+.deleted {
+  font-weight: normal !important;
+}
+
+.deleteButton {
+  background-color: #246ab0 !important;
+  color: #e1f5fb !important;
+  border-radius: 5px 5px 0 5px !important;
+}
+
+.deleteButton span {
+  padding-left: 0.5rem;
+}
+
+.deleteButton:hover {
+  -webkit-transition: all .3s ease-out;
+  transition: all .3s ease-out;
+  background-color: #37798b !important;
+}
+/*# sourceMappingURL=AnalizaTable.module.css.map */

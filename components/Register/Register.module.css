@@ -8,6 +8,7 @@
 
 .container div {
     width: auto;
+    border-radius: 5px;
 }
 
 .container div div input {
@@ -16,4 +17,25 @@
 
 .sendButton {
     width: auto;
+    margin-bottom: 1rem !important;
+}
+
+.registerButton {
+	padding: 0.5rem;
+	cursor: pointer;
+	border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+.registerButton:hover {
+	padding: 0.5rem;
+	background-color: aliceblue !important;
+	-webkit-box-shadow: 3px 3px 10px 0px rgba(66, 68, 90, 0.617);
+-moz-box-shadow: 3px 3px 10px 0px rgba(66, 68, 90, 0.617);
+box-shadow: 3px 3px 10px 0px rgba(66, 68, 90, 0.617);
+}
+
+
+.error {
+	color: red;
+	margin-bottom: 1rem;
 }

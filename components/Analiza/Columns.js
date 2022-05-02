@@ -13,7 +13,7 @@ export const columns = [
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
-      width: 120,
+      width: 130,
       editable: false,
     },
     {
@@ -147,6 +147,7 @@ export const columns = [
     },
     {
       field: "data",
+      type: "date",
       headerName: "Data modyfikacji",
       headerAlign: "center",
       align: "center",

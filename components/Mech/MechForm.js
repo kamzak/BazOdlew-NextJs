@@ -7,15 +7,12 @@ import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from '@mui/material/InputLabel';
-import classes from "./StrukturaForm.module.css";
-import { database, storage } from "../../config/firebase";
-import { ref, set, update } from "firebase/database";
-import { ref as sRef, getDownloadURL, uploadBytes } from 'firebase/storage';
-import "firebase/compat/storage";
-import 'firebase/compat/database';
-import 'firebase/storage';
+import classes from "./MechForm.module.css";
+import { database } from "../../config/firebase";
+import { ref, set } from "firebase/database";
 import useInput from "../../hooks/use-input";
 import Modal from "../Modals/Modal";
 import successIcon from '../static/success.png';
@@ -50,7 +47,7 @@ const RODZAJE_METALI = [
 	"Żeliwo SiMo",
 ];
 
-function StrukturaForm() {
+function MechForm() {
 	const [nrWyt, setNrWyt] = useState("");
 	const [wytTouched, setWytTouched] = useState(false);
 	const [wytExist, setWytExist] = useState("");
@@ -63,12 +60,6 @@ function StrukturaForm() {
 
 	const [formIsValid, setFormIsValid] = useState(false);
 
-	const [showAddAlert, setAddShowAlert] = useState(false);
-
-	const showAlert = () => {
-		setAddShowAlert(prevState => !prevState);
-	}
-
 	const wytValid = nrWyt.trim() !== "";
 	const wytInvalid = !wytValid && wytTouched;
 
@@ -78,8 +69,14 @@ function StrukturaForm() {
 	const rodzIsValid = rodz !== null && rodz !== "";
 	const rodzInvalid = !rodzIsValid && rodzTouched;
 
-	const img1Ref = useRef();
-	const img2Ref = useRef();
+	const [twarSelect, setTwarSelect] = useState("HB");
+	const [udarSelect, setUdarSelect] = useState("KC");
+
+	const [showAddAlert, setAddShowAlert] = useState(false);
+
+	const showAlert = () => {
+		setAddShowAlert(prevState => !prevState);
+	}
 
 	const wytBlur = () => {
 		setWytTouched(true);
@@ -129,94 +126,73 @@ function StrukturaForm() {
 		setRodzTouched(true);
 	};
 
-	// Liczb wydz
+	// Wytrzymałość na rozciąganie Rm
 	const {
-		value: wydz,
-		isValid: wydzIsValid,
-		hasError: wydzHasError,
-		valueChangeHandler: wydzChange,
-		inputBlurHandler: wydzBlur,
-		reset: resetWydz,
+		value: wytrzRm,
+		isValid: wytrzRmIsValid,
+		hasError: wytrzRmHasError,
+		valueChangeHandler: wytrzRmChange,
+		inputBlurHandler: wytrzRmBlur,
+		reset: resetWytrzRm,
 	} = useInput((value) => value.trim() !== "", "15", false);
 
-	// Stopień sferoidalności
+	// Granica plastyczności Rp0,2
 	const {
-		value: sfer,
-		isValid: sferIsValid,
-		hasError: sferHasError,
-		valueChangeHandler: sferChange,
-		inputBlurHandler: sferBlur,
-		reset: resetSfer,
-	} = useInput((value) => value.trim() !== "", "7", false, true);
+		value: granicaRp,
+		isValid: granicaRpIsValid,
+		hasError: granicaRpHasError,
+		valueChangeHandler: granicaRpChange,
+		inputBlurHandler: granicaRpBlur,
+		reset: resetGranicaRp,
+	} = useInput((value) => value.trim() !== "", "15", false);
 
-	// Udział grafitu
+	// Wydłużenie względne A10
 	const {
-		value: graf,
-		isValid: grafIsValid,
-		hasError: grafHasError,
-		valueChangeHandler: grafChange,
-		inputBlurHandler: grafBlur,
-		reset: resetGraf,
-	} = useInput((value) => value.trim() !== "", "7", false, true);
+		value: wydl,
+		isValid: wydlIsValid,
+		hasError: wydlHasError,
+		valueChangeHandler: wydlChange,
+		inputBlurHandler: wydlBlur,
+		reset: resetWydl,
+	} = useInput((value) => value.trim() !== "", "10", false);
 
-	// Udział perlitu
+	// Moduł Younga E
 	const {
-		value: perl,
-		isValid: perlIsValid,
-		hasError: perlHasError,
-		valueChangeHandler: perlChange,
-		inputBlurHandler: perlBlur,
-		reset: resetPerl,
-	} = useInput((value) => value.trim() !== "", "7", false, true);
+		value: young,
+		isValid: youngIsValid,
+		hasError: youngHasError,
+		valueChangeHandler: youngChange,
+		inputBlurHandler: youngBlur,
+		reset: resetYoung,
+	} = useInput((value) => value.trim() !== "", "10", false);
 
-	// Udział ferrytu
+	// Twardość
 	const {
-		value: fer,
-		isValid: ferIsValid,
-		hasError: ferHasError,
-		valueChangeHandler: ferChange,
-		inputBlurHandler: ferBlur,
-		reset: resetFer,
-	} = useInput((value) => value.trim() !== "", "7", false, true);
+		value: twar,
+		isValid: twarIsValid,
+		hasError: twarHasError,
+		valueChangeHandler: twarChange,
+		inputBlurHandler: twarBlur,
+		reset: resetTwar,
+	} = useInput((value) => value.trim() !== "", "7", false);
 
-	// Zdjęcie przed trawieniem
-	const [zdj1, setZdj1] = useState("");
-	const [zdj1Touched, setZdj1Touched] = useState(false);
+	// Udarność
+	const {
+		value: udar,
+		isValid: udarIsValid,
+		hasError: udarHasError,
+		valueChangeHandler: udarChange,
+		inputBlurHandler: udarBlur,
+		reset: resetUdar,
+	} = useInput((value) => value.trim() !== "", "7", false);
 
-	const zdj1Valid = zdj1 !== "" && zdj1 !== undefined;
-	const zdj1Invalid = !zdj1Valid && zdj1Touched;
+	const handleUdarChange = (e) => {
+		setUdarSelect(e.target.value);
+	}
 
-	const zdj1Blur = () => {
-		setZdj1Touched(true);
-	};
-
-	// Zdjęcie po trawieniem
-	const [zdj2, setZdj2] = useState("");
-	const [zdj2Touched, setZdj2Touched] = useState(false);
-
-	const zdj2Valid = zdj2 !== "" && zdj2 !== undefined;
-	const zdj2Invalid = !zdj2Valid && zdj2Touched;
-
-	const zdj2Blur = () => {
-		setZdj2Touched(true);
-	};
-
-	// Insert first image func
-	const zdj1Change = (e) => {
-		if (e.target.files[0]) {
-			setZdj1(e.target.files[0]);
-		} else {
-			setFormIsValid(false);
-		}
-	};
-	// Insert second image func
-	const zdj2Change = (e) => {
-		if (e.target.files[0]) {
-			setZdj2(e.target.files[0]);
-		} else {
-			setFormIsValid(false);
-		}
-	};
+	const handleTwarChange = (e) => {
+		setTwarSelect(e.target.value);
+	}
 
 	const submitHandler = async (event) => {
 		event.preventDefault();
@@ -235,36 +211,21 @@ function StrukturaForm() {
 		// Adjusting db id
 		let id = parseInt(nrWyt);
 
-		const storageRef1 = sRef(storage, `images/${nrWyt}_1`);
-		const storageRef2 = sRef(storage, `images/${nrWyt}_2`);
-		uploadBytes(storageRef1, zdj1).then(snapshot => {
-			getDownloadURL(snapshot.ref).then(url => {
-				update(ref(db, "strukturaNext/" + id), {
-					str1: url
-				})
-			});
-		});
-		uploadBytes(storageRef2, zdj2).then(snapshot => {
-			getDownloadURL(snapshot.ref).then(url => {
-				update(ref(db, "strukturaNext/" + id), {
-					str2: url
-				})
-			});
-		})
-		set(ref(db, "strukturaNext/" + id), {
+		set(ref(db, "mechNext/" + id), {
 			wyt: parseInt(nrWyt),
 			rodzMet: rodz,
 			gat: gat,
 			id: parseInt(nrWyt),
 			data: formatedDate,
-			wydz: parseFloat(wydz),
-			sfer: parseFloat(sfer),
-			graf: parseFloat(graf),
-			perl: parseFloat(perl),
-			fer: parseFloat(fer),
+			wytrzRm: parseFloat(wytrzRm),
+			granicaRp: parseFloat(granicaRp),
+			wydl: parseFloat(wydl),
+			young: parseFloat(young),
+			twar: twar +' '+ twarSelect,
+			udar: udar +' '+ udarSelect,
 		}
 		).then(setAddShowAlert(true))
-			.then(setTimeout(() => setAddShowAlert(false), 3000));
+		.then(setTimeout(() => setAddShowAlert(false), 3000));
 
 		//Clear inputs
 
@@ -276,17 +237,12 @@ function StrukturaForm() {
 		setRodz("");
 		setRodzTouched(false);
 		rodzChange(0, "");
-		resetWydz();
-		resetSfer();
-		resetGraf();
-		resetPerl();
-		resetFer();
-		setZdj1(null);
-		setZdj1Touched(false);
-		img1Ref.current.value = null;
-		setZdj2(null);
-		setZdj2Touched(false);
-		img2Ref.current.value = null;
+		resetWytrzRm();
+		resetGranicaRp();
+		resetWydl();
+		resetYoung();
+		resetTwar();
+		resetUdar();
 	};
 
 	useEffect(() => {
@@ -294,13 +250,12 @@ function StrukturaForm() {
 			wytValid &&
 			gatIsValid &&
 			rodzIsValid &&
-			wydzIsValid &&
-			sferIsValid &&
-			grafIsValid &&
-			perlIsValid &&
-			ferIsValid &&
-			zdj1Valid &&
-			zdj2Valid
+			wytrzRmIsValid &&
+			granicaRpIsValid &&
+			wydlIsValid &&
+			youngIsValid &&
+			twarIsValid &&
+			udarIsValid
 		) {
 			setFormIsValid(true);
 		} else {
@@ -310,15 +265,12 @@ function StrukturaForm() {
 		wytValid,
 		gatIsValid,
 		rodzIsValid,
-		wydzIsValid,
-		sferIsValid,
-		grafIsValid,
-		perlIsValid,
-		ferIsValid,
-		zdj1Valid,
-		zdj2Valid,
-		zdj1,
-		zdj2
+		wytrzRmIsValid,
+		granicaRpIsValid,
+		wydlIsValid,
+		youngIsValid,
+		twarIsValid,
+		udarIsValid
 	]);
 
 	return (
@@ -462,15 +414,15 @@ function StrukturaForm() {
 					</Grid>
 					<Grid item xs={12} md={6} lg={3}>
 						<TextField
-							error={wydzHasError}
+							error={wytrzRmHasError}
 							className={classes.input}
 							required
 							id="outlined-required"
-							label="Liczba wydzieleń grafitu [1/mm2]"
-							placeholder="np. 123"
-							value={wydz}
-							onChange={wydzChange}
-							onBlur={wydzBlur}
+							label="Wytrz. na rozciąganie Rm [MPa]"
+							placeholder="np. 500"
+							value={wytrzRm}
+							onChange={wytrzRmChange}
+							onBlur={wytrzRmBlur}
 							variant="outlined"
 							autoComplete='off'
 							InputProps={{
@@ -483,7 +435,7 @@ function StrukturaForm() {
 											placement="top"
 											arrow
 											title={
-												"Liczba wydzieleń grafitu na mm2. Wartość pobrana z programu na podstawie zdjęcia struktury"
+												"Wytrzymałość na rozciąganie to naprężenie, które odpowiada sile rozciągającej, uzyskanej podczas statycznej próby rozciągania."
 											}
 										>
 											<Button tabIndex={-1}>
@@ -497,15 +449,15 @@ function StrukturaForm() {
 					</Grid>
 					<Grid item xs={12} md={6} lg={3}>
 						<TextField
-							error={sferHasError}
+							error={granicaRpHasError}
 							className={classes.input}
 							required
 							id="outlined-required"
-							label="Stopień sferoidalności grafitu [%]"
-							placeholder="sferoidalność"
-							value={sfer}
-							onChange={sferChange}
-							onBlur={sferBlur}
+							label="Granica plastyczności Rp0,2 [MPa]"
+							placeholder="np. 300"
+							value={granicaRp}
+							onChange={granicaRpChange}
+							onBlur={granicaRpBlur}
 							variant="outlined"
 							autoComplete='off'
 							InputProps={{
@@ -518,7 +470,7 @@ function StrukturaForm() {
 											placement="top"
 											arrow
 											title={
-												"Stopień sferoidalności kulek grafitu wyrażony w procentach. Maksymalnie do 5 cyfr po kropce"
+												"Granica plastyczności to wartość naprężenia, przy którym zaczynają powstawać nieodwracalne mikroskopijne odkształcenia plastyczne we wszystkich ziarnach lub naprężenie w którym występuje płynięcie metalu pod wpływem stałego obciążenia"
 											}
 										>
 											<Button tabIndex={-1}>
@@ -532,15 +484,15 @@ function StrukturaForm() {
 					</Grid>
 					<Grid item xs={12} md={6} lg={3}>
 						<TextField
-							error={grafHasError}
+							error={wydlHasError}
 							className={classes.input}
 							required
 							id="outlined-required"
-							label="Udział grafitu [%]"
-							placeholder="udział % grafitu"
-							value={graf}
-							onChange={grafChange}
-							onBlur={grafBlur}
+							label="Wydłużenie względne A10 [%]"
+							placeholder="np. 20"
+							value={wydl}
+							onChange={wydlChange}
+							onBlur={wydlBlur}
 							variant="outlined"
 							autoComplete='off'
 							InputProps={{
@@ -553,7 +505,7 @@ function StrukturaForm() {
 											placement="top"
 											arrow
 											title={
-												"Udział procentowy grafitu w strukturze. Maksymalnie do 5 cyfr po kropce"
+												"Udział procentowy grafitu w strukturze. Maksymalnie do 5 cyWydłużenie względne jest to stosunek odkształcenia bezwzględnego do początkowej długości odcinka pomiarowego"
 											}
 										>
 											<Button tabIndex={-1}>
@@ -567,15 +519,15 @@ function StrukturaForm() {
 					</Grid>
 					<Grid item xs={12} md={6} lg={3}>
 						<TextField
-							error={perlHasError}
+							error={youngHasError}
 							className={classes.input}
 							required
 							id="outlined-required"
-							label="Udział perlitu [%]"
-							placeholder="udział % perlitu"
-							value={perl}
-							onChange={perlChange}
-							onBlur={perlBlur}
+							label="Moduł Younga E [GPa]"
+							placeholder="np. dla żeliwa i stali - 190 ÷ 210"
+							value={young}
+							onChange={youngChange}
+							onBlur={youngBlur}
 							variant="outlined"
 							autoComplete='off'
 							InputProps={{
@@ -588,7 +540,7 @@ function StrukturaForm() {
 											placement="top"
 											arrow
 											title={
-												"Udział procentowy perlitu w strukturze. Maksymalnie do 5 cyfr po kropce"
+												"Moduł Younga (E) – inaczej moduł odkształcalności liniowej albo moduł (współczynnik) sprężystości podłużnej – wielkość określająca sprężystość materiału. Wyraża ona, charakterystyczną dla danego materiału, zależność względnego odkształcenia liniowego ε materiału od naprężenia σ, jakie w nim występuje w zakresie odkształceń sprężystych"
 											}
 										>
 											<Button tabIndex={-1}>
@@ -601,113 +553,108 @@ function StrukturaForm() {
 						/>
 					</Grid>
 					<Grid item xs={12} md={6} lg={3}>
-						<TextField
-							error={ferHasError}
-							className={classes.input}
-							required
-							id="outlined-required"
-							label="Udział ferrytu [%]"
-							placeholder="udział % ferrytu"
-							value={fer}
-							onChange={ferChange}
-							onBlur={ferBlur}
-							variant="outlined"
-							autoComplete='off'
-							InputProps={{
-								endAdornment: (
-									<InputAdornment
-										position="end"
-										className={classes.info}
-									>
-										<Tooltip
-											placement="top"
-											arrow
-											title={
-												"Udział procentowy ferrytu w strukturze. Maksymalnie do 5 cyfr po kropce"
-											}
-										>
-											<Button tabIndex={-1}>
-												<InfoIcon />
-											</Button>
-										</Tooltip>
-									</InputAdornment>
-								),
-							}}
-						/>
+						<Grid container spacing={1.4}>
+							<Grid item xs={4} md={4} lg={4}>
+								<Select
+								className={classes.twarSelect}
+									id="demo-simple-select"
+									inputProps={{ 'aria-label': 'Without label' }}
+									defaultValue="HB"
+									value={twarSelect}
+									onChange={handleTwarChange}
+								>
+									<MenuItem value="HB">HB</MenuItem>
+									<MenuItem value="HV">HV</MenuItem>
+									<MenuItem value="HRC">HRC</MenuItem>
+								</Select>
+							</Grid>
+							<Grid item xs={8} md={8} lg={8}>
+								<TextField
+									error={twarHasError}
+									className={classes.inputUdar}
+									required
+									id="outlined-required"
+									label="Twardość"
+									value={twar}
+									onChange={twarChange}
+									onBlur={twarBlur}
+									variant="outlined"
+									autoComplete='off'
+									InputProps={{
+										endAdornment: (
+											<InputAdornment
+												position="end"
+												className={classes.info}
+											>
+												<Tooltip
+													placement="top"
+													arrow
+													title={
+														"Twardość wyrażona w wybranej jednostce"
+													}
+												>
+													<Button tabIndex={-1}>
+														<InfoIcon />
+													</Button>
+												</Tooltip>
+											</InputAdornment>
+										),
+									}}
+								/>
+							</Grid>
+						</Grid>
 					</Grid>
 					<Grid item xs={12} md={6} lg={3}>
-						<InputLabel htmlFor="outlined-required">
-							Zdjęcie struktury przed trawieniem *
-						</InputLabel>
-						<TextField
-							error={zdj1Invalid}
-							className={classes.input}
-							required
-							id="outlined-required"
-							onChange={zdj1Change}
-							onBlur={zdj1Blur}
-							type="file"
-							inputRef={img1Ref}
-							variant="standard"
-							autoComplete='off'
-							InputProps={{
-								endAdornment: (
-									<InputAdornment
-										position="end"
-										className={classes.info}
-									>
-										<Tooltip
-											placement="top"
-											arrow
-											title={
-												"Zdjęcie struktury przed trawieniem uzyskane przy użyciu odpowiedniego programu podłączonego do mikroskopu"
-											}
-										>
-											<Button tabIndex={-1}>
-												<InfoIcon />
-											</Button>
-										</Tooltip>
-									</InputAdornment>
-								),
-							}}
-						/>
-					</Grid>
-					<Grid item xs={12} md={6} lg={3}>
-						<InputLabel htmlFor="outlined-required">
-							Zdjęcie struktury po trawieniu *
-						</InputLabel>
-						<TextField
-							error={zdj2Invalid}
-							className={classes.input}
-							required
-							id="outlined-required"
-							onChange={zdj2Change}
-							onBlur={zdj2Blur}
-							type="file"
-							inputRef={img2Ref}
-							variant="standard"
-							autoComplete='off'
-							InputProps={{
-								endAdornment: (
-									<InputAdornment
-										position="end"
-										className={classes.info}
-									>
-										<Tooltip
-											placement="top"
-											arrow
-											title={
-												"Zdjęcie struktury po trawieniu uzyskane przy użyciu odpowiedniego programu podłączonego do mikroskopu"
-											}
-										>
-											<Button tabIndex={-1}>
-												<InfoIcon />
-											</Button>
-										</Tooltip>
-									</InputAdornment>
-								),
-							}}
-						/>
+						<Grid container spacing={1.4}>
+							<Grid item xs={4} md={4} lg={4}>
+								<Select
+								className={classes.twarSelect}
+									id="demo-simple-select"
+									inputProps={{ 'aria-label': 'Without label' }}
+									defaultValue="KC"
+									value={udarSelect}
+									onChange={handleUdarChange}
+								>
+									<MenuItem value="KC">KC</MenuItem>
+									<MenuItem value="KV">KV</MenuItem>
+									<MenuItem value="KU">KU</MenuItem>
+								</Select>
+							</Grid>
+							<Grid item xs={8} md={8} lg={8}>
+								<TextField
+									error={udarHasError}
+									className={classes.inputUdar}
+									required
+									id="outlined-required"
+									label="Udarność"
+									value={udar}
+									onChange={udarChange}
+									onBlur={udarBlur}
+									variant="outlined"
+									autoComplete='off'
+									InputProps={{
+										endAdornment: (
+											<InputAdornment
+												position="end"
+												className={classes.info}
+											>
+												<Tooltip
+													placement="top"
+													arrow
+													title={
+														"Udarność wyrażona w wybranej jednostce"
+													}
+												>
+													<Button tabIndex={-1}>
+														<InfoIcon />
+													</Button>
+												</Tooltip>
+											</InputAdornment>
+										),
+									}}
+								/>
+							</Grid>
+						</Grid>
 					</Grid>
 					<Grid
 						container
@@ -735,4 +682,4 @@ function StrukturaForm() {
 	);
 }
 
-export default StrukturaForm;
+export default MechForm;

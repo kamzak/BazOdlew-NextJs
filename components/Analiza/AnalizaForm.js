@@ -12,6 +12,8 @@ import classes from "./AnalizaForm.module.css";
 import { database } from "../../config/firebase";
 import { ref, set } from "firebase/database";
 import useInput from "../../hooks/use-input";
+import Modal from "../Modals/Modal";
+import successIcon from '../static/success.png';
 
 const GATUNKI = [
 	"GJL-150",
@@ -64,6 +66,12 @@ function AnalizaForm() {
 
 	const rodzIsValid = rodz !== null && rodz !== "";
 	const rodzInvalid = !rodzIsValid && rodzTouched;
+
+	const [showAddAlert, setAddShowAlert] = useState(false);
+
+	const showAlert = () => {
+		setAddShowAlert(prevState => !prevState);
+	}
 
 	const wytBlur = () => {
 		setWytTouched(true);
@@ -269,7 +277,8 @@ function AnalizaForm() {
 			Zr: parseFloat(Zr),
 			Bi: parseFloat(Bi),
 			Ca: parseFloat(Ca),
-		}).then(alert("Dodano rekord!"));
+		}).then(setAddShowAlert(true))
+		.then(setTimeout(() => setAddShowAlert(false), 3000));
 
 		//Clear inputs
 
@@ -344,6 +353,11 @@ function AnalizaForm() {
 							Wprowadź dane [ * - pole obowiązkowe ]:
 						</p>
 					</Grid>
+					{showAddAlert && (
+						<Modal src={successIcon} onClose={showAlert}>
+							Wprowadzono wyniki!
+						</Modal>
+					)}
 					<Grid item xs={12} md={6} lg={3}>
 						<TextField
 							error={wytInvalid}

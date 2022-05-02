@@ -2,56 +2,53 @@ import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import classes from "./StrukturaTable.module.css";
 import { database, storage } from "../../config/firebase";
-import { ref as sRef, getDownloadURL, deleteObject} from 'firebase/storage';
+import { ref as sRef, deleteObject } from 'firebase/storage';
 import "firebase/compat/storage";
 import 'firebase/compat/database';
 import { ref, onValue, remove } from "firebase/database";
 import Button from "@mui/material/Button";
-import Image from 'next/image'
+import Image from 'next/image';
+import Modal from "../Modals/Modal";
+import DeleteIcon from '../static/delete.png';
+import DeleteIcon2 from '../static/delete2.png';
+import ImgModal from "../Modals/ImgModal";
 
 function StrukturaTable() {
   const [records, setRecords] = useState([]);
   const [selectionModel, setSelectionModel] = useState([]);
-  const [images, setImages] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [imgUrl, setImgUrl] = useState("");
   const db = database;
+
+  const [showAddAlert, setAddShowAlert] = useState(false);
+
+  const showAlert = () => {
+    setAddShowAlert(prevState => !prevState);
+  }
 
   const deleteRows = (e) => {
     e.preventDefault();
+    setSelectedRows([]);
     selectionModel.forEach((element) => {
       const formatedElement = parseInt(element);
       console.log(formatedElement);
-      remove(ref(db, "strukturaNext/" + formatedElement)).then(
-        console.log("Usunieto wiersz: " + selectionModel)
-      );
-      const deleteRef1 = sRef(storage, 'images/'+element+'_1');
-      deleteObject(deleteRef1).then(() => {
-        console.log(' pomyslnie usunieto');
-      });
-      const deleteRef2 = sRef(storage, 'images/'+element+'_2');
-      deleteObject(deleteRef2).then(() => {
-        console.log(' pomyslnie usunieto');
+      const promise1 = remove(ref(db, "strukturaNext/" + formatedElement)).then(setSelectedRows(prevState => [...prevState, ' ' + formatedElement]));
+
+      const deleteRef1 = sRef(storage, 'images/' + element + '_1');
+      const promise2 = deleteObject(deleteRef1);
+      const deleteRef2 = sRef(storage, 'images/' + element + '_2');
+      const promise3 = deleteObject(deleteRef2);
+
+      Promise.all([promise1, promise2, promise3]).then(() => {
+        setAddShowAlert(true);
+        setTimeout(() => setAddShowAlert(false), 3000);
       });
     });
-    
+
   };
-  
-  const fetchImages = async () => {
-    const imagesRef = sRef(storage, 'images/1111_1.jpeg');
-    getDownloadURL(sRef(storage, 'images/1111_1.jpeg')).then(url => {
-      console.log(url)
-    });
-    console.log(imagesRef);
-    // await storage.ref().child('images/').listAll().then(setImages([]))
-    //   .then((res) => {
-    //     res.items.forEach((item) => {
-    //       item.getDownloadURL().then((url) => {
-    //         setImages((arr) => [...arr, url]);
-    //       });
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     alert(err.message);
-    //   });
+  const hideModal = () => {
+    setShowModal(prevState => !prevState);
   }
 
   useEffect(() => {
@@ -65,8 +62,8 @@ function StrukturaTable() {
       });
       setRecords(formatedArray);
     });
-    fetchImages();
   }, []);
+
 
 
   const columns = [
@@ -84,7 +81,7 @@ function StrukturaTable() {
       headerClassName: "tableHeader",
       headerAlign: "center",
       align: "center",
-      width: 120,
+      width: 130,
       editable: false,
     },
     {
@@ -157,10 +154,16 @@ function StrukturaTable() {
       width: 200,
       editable: false,
       renderCell: (imgUrl) => {
-        console.log(imgUrl.value);
+        const imageClick = (e) => {
+          e.stopPropagation();
+          setImgUrl(imgUrl.value);
+          setShowModal(prevState => !prevState);
+        }
         return (
-          imgUrl.value !== null && imgUrl.value !== undefined &&<Image className={classes.struktura} width="150px" height="100" objectFit="contain"  src={imgUrl.value} alt="" />
-        );
+          imgUrl.value !== null && imgUrl.value !== undefined &&
+          <div className={classes.photo}>
+            <Image onClick={imageClick} className={classes.struktura} width="160px" height="200" objectFit="contain" src={imgUrl.value} alt="" />
+          </div>);
       }
     },
     {
@@ -172,10 +175,16 @@ function StrukturaTable() {
       width: 200,
       editable: false,
       renderCell: (imgUrl) => {
-        console.log(imgUrl.value);
+        const imageClick = (e) => {
+          e.stopPropagation();
+          setImgUrl(imgUrl.value);
+          setShowModal(prevState => !prevState);
+        }
         return (
-          imgUrl.value !== null && imgUrl.value !== undefined && <Image className={classes.struktura} width="150px" height="100" objectFit="contain" src={imgUrl.value} alt="" />
-        );
+          imgUrl.value !== null && imgUrl.value !== undefined &&
+          <div className={classes.photo}>
+            <Image onClick={imageClick} className={classes.struktura} width="160px" height="200" objectFit="contain" src={imgUrl.value} alt="" />
+          </div>);
       }
     },
     {
@@ -184,7 +193,7 @@ function StrukturaTable() {
       headerAlign: "center",
       align: "center",
       headerClassName: "tableHeader",
-      width: 210,
+      width: 150,
     },
   ];
 
@@ -194,10 +203,11 @@ function StrukturaTable() {
       style={{ margin: "0 auto", height: "910px", width: "100%" }}
     >
       {selectionModel.length >= 1 ? (
-        <Button onClick={deleteRows}>Usuń zaznaczone elementy</Button>
+        <Button className={classes.deleteButton} onClick={deleteRows}><Image src={DeleteIcon2} width={23} height={23}alt='deleteicon' /><span>Usuń zaznaczone elementy</span></Button>
       ) : (
         ""
       )}
+      {showModal && <ImgModal onClose={hideModal} src={imgUrl}></ImgModal>}
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid
@@ -232,6 +242,12 @@ function StrukturaTable() {
           />
         </div>
       </div>
+      {showAddAlert && selectedRows.length >= 1 && (
+        <Modal className={classes.deletedModal} src={DeleteIcon} onClose={showAlert}>
+          {`Usunieto wiersz(e) o nr wytopu: `}
+          <span>{selectedRows.toString()}</span>
+        </Modal>
+      )}
     </div>
   );
 }

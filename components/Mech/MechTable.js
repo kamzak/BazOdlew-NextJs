@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import classes from "./AnalizaTable.module.css";
-import { columns } from "./Columns";
+import classes from "./MechTable.module.css";
+import { columns } from './Columns';
 import { database } from "../../config/firebase";
-import { ref, onValue, remove } from "firebase/database";
+import { ref, onValue, remove, set } from "firebase/database";
 import Button from "@mui/material/Button";
+import Image from 'next/image';
 import Modal from "../Modals/Modal";
 import DeleteIcon from '../static/delete.png';
 import DeleteIcon2 from '../static/delete2.png';
-import Image from 'next/image';
 
-
-function AnalizaTable() {
+function MechTable() {
   const [records, setRecords] = useState([]);
   const [selectionModel, setSelectionModel] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -21,7 +20,6 @@ function AnalizaTable() {
   const showAlert = () => {
     setAddShowAlert(prevState => !prevState);
   }
-
   const db = database;
 
   const deleteRows = (e) => {
@@ -30,20 +28,19 @@ function AnalizaTable() {
     selectionModel.forEach((element) => {
       const formatedElement = parseInt(element);
       console.log(formatedElement);
-      remove(ref(db, "analizaNext/" + formatedElement))
-        .then(setSelectedRows(prevState => [...prevState, ' ' + formatedElement]))
+      remove(ref(db, "mechNext/" + formatedElement)).then(setSelectedRows(prevState => [...prevState, ' ' + formatedElement]));
     });
     setAddShowAlert(true);
     setTimeout(() => setAddShowAlert(false), 3000);
   };
 
   useEffect(() => {
-    const getData = ref(db, "analizaNext/");
+    const getData = ref(db, "mechNext/");
     onValue(getData, (snapshot) => {
       const data = snapshot.val();
-      let dataArray = Object.entries(data);
+      let dataArray = data && Object.entries(data);
       let formatedArray = [];
-      dataArray.map((item) => {
+      dataArray && dataArray.map((item) => {
         formatedArray.push(item[1]);
       });
       setRecords(formatedArray);
@@ -56,7 +53,7 @@ function AnalizaTable() {
       style={{ margin: "0 auto", height: "910px", width: "100%" }}
     >
       {selectionModel.length >= 1 ? (
-        <Button className={classes.deleteButton} onClick={deleteRows}><Image src={DeleteIcon2} width={23} height={23}alt='deleteicon' /><span>Usuń zaznaczone elementy</span></Button>
+        <Button className={classes.deleteButton} onClick={deleteRows}><Image src={DeleteIcon2} width={23} height={23} alt='deleteicon' /><span>Usuń zaznaczone elementy</span></Button>
       ) : (
         ""
       )}
@@ -68,7 +65,9 @@ function AnalizaTable() {
             pageSize={15}
             rowsPerPageOptions={[15]}
             checkboxSelection
+            rowHeight={100}
             onSelectionModelChange={(newSelectionModel) => {
+              console.log(newSelectionModel);
               setSelectionModel(newSelectionModel);
             }}
             selectionModel={selectionModel}
@@ -102,4 +101,4 @@ function AnalizaTable() {
   );
 }
 
-export default AnalizaTable;
+export default MechTable;

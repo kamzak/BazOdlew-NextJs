@@ -1,8 +1,9 @@
 {
     "version": 3,
-    "mappings": "",
+    "mappings": "AACA,YAAY;AAAA,mDAAmD;AAC/D,AAAA,aAAa,CAAC;EACV,gBAAgB,EAAE,OAAO;EACzB,KAAK,EAAE,OAAO;CACjB;;AAED,AAAA,QAAQ,CAAC;EACL,WAAW,EAAE,iBAAiB;CACjC;;AAED,AAAA,aAAa,CAAC;EACV,gBAAgB,EAAE,kBAAkB;EACpC,KAAK,ECTC,OAAO,CDSG,UAAU;EAC1B,aAAa,EAAE,wBAAwB;CAC1C;;AACD,AAAA,aAAa,CAAC,IAAI,CAAC;EACf,YAAY,EAAE,MAAM;CACvB;;AAED,AAAA,aAAa,AAAA,MAAM,CAAC;EAChB,UAAU,EAAE,gBAAgB;EAC5B,gBAAgB,EAAE,kBAAkB;CACvC",
     "sources": [
-        "AnalizaTable.module.scss"
+        "AnalizaTable.module.scss",
+        "../../styles/_variables.scss"
     ],
     "names": [],
     "file": "AnalizaTable.module.css"

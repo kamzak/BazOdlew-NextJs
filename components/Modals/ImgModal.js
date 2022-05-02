@@ -8,25 +8,27 @@ const Backdrop = (props) => {
 
 const ModalOverlay = (props) => {
   return (
-    <div className={`${classes.modal}`}>
+    <div className={classes.modal}>
       <span className={classes.close} onClick={props.onClose}>X</span>
-      <img className={classes.modalImg} src={props.src} alt="" />
-      {props.children}
+      <div className={classes.wrapper}>
+        <img className={classes.modalImg} src={props.src} alt="" />
+        {props.children}
+      </div>
     </div>
   );
 };
 
-const portalElement = document.getElementById("overlays");
 
 const ImgModal = (props) => {
+  const portalElement = document.getElementById("overlays");
   return (
     <Fragment>
-            {ReactDOM.createPortal(
-        <Backdrop onClose={props.onClose} />,
+      {portalElement && ReactDOM.createPortal(
+        <ModalOverlay src={props.src} onClose={props.onClose}>{props.children}</ModalOverlay>,
         portalElement
       )}
-      {ReactDOM.createPortal(
-        <ModalOverlay src={props.src} onClose={props.onClose}>{props.children}</ModalOverlay>,
+      {portalElement && ReactDOM.createPortal(
+        <Backdrop onClose={props.onClose} />,
         portalElement
       )}
     </Fragment>

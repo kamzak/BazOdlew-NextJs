@@ -1,0 +1,107 @@
+.forms {
+  margin-bottom: 1rem;
+  padding-right: 1rem;
+}
+
+.input {
+  background-color: white;
+  border-radius: 4px;
+  height: 100%;
+  margin-left: 1rem;
+  -webkit-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.sendButton {
+  width: 100%;
+  height: 100%;
+}
+
+.info {
+  position: absolute;
+  right: 2.4rem;
+  width: 1rem;
+}
+
+.info button:hover {
+  background-color: transparent;
+}
+
+.gridWrapper {
+  border-left: 1px solid rgba(0, 0, 0, 0.323);
+  border-right: 1px solid rgba(0, 0, 0, 0.323);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.323);
+}
+
+.tableHeader {
+  border-collapse: collapse;
+  background-color: rgba(143, 143, 143, 0.092);
+}
+
+.tableHeader th:nth-child(2) {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.67);
+  border-left: 1px solid rgba(0, 0, 0, 0.323);
+}
+
+.tableHeader tr th:first-child {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.67);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.323);
+}
+
+.tableHeader tr th:last-child {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.323);
+}
+
+.separator {
+  border-right: 1px solid rgba(0, 0, 0, 0.323);
+}
+
+.struktury {
+  padding-top: 1rem;
+}
+
+.struktury img {
+  width: 100%;
+}
+
+.struktury h1 {
+  text-align: center;
+  font-weight: normal;
+  font-size: 1.2rem;
+  margin-left: 0;
+}
+
+.headName {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: #ebebeb;
+  border: 1px solid rgba(0, 0, 0, 0.323);
+  color: rgba(0, 0, 0, 0.67);
+}
+
+.headName h2 {
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 899px) {
+  .struktury:first-child {
+    padding-right: 0;
+  }
+  .sendButton {
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (min-width: 900px) {
+  .struktury:first-child {
+    padding-right: 1rem;
+  }
+}
+/*# sourceMappingURL=Podsumowanie.module.css.map */

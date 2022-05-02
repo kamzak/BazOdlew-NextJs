@@ -75,11 +75,11 @@ function MainNavigation() {
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={handleClose}>
-                    <Link href="/">Właściwości mechaniczne</Link>
+                    <Link href="/mech">Właściwości mechaniczne</Link>
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={handleClose}>
-                    <Link href="/">Podsumowanie</Link>
+                    <Link href="/podsumowanie">Podsumowanie</Link>
                   </MenuItem>
                 </Menu>
               </li>

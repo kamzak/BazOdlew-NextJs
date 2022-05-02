@@ -77,8 +77,8 @@ const SideMenu = () => {
           ? [
               <Link href="/analiza">Analiza składu chemicznego</Link>,
               <Link href="/struktura">Struktura</Link>,
-              <Link href="/">Właściwości mechaniczne</Link>,
-              <Link href="/">Podsumowanie</Link>,
+              <Link href="/mech">Właściwości mechaniczne</Link>,
+              <Link href="/podsumowanie">Podsumowanie</Link>,
             ].map((text, index) => (<Fragment key={index}>
               <ListItem button key={text}>
                 <ListItemIcon>
