@@ -1,8 +1,10 @@
+import classes from './HomePage.module.css';
+
 function HomePage() {
   return (
     <main>
-      <h1>Aktualizacje</h1>
-      <ul>
+      <h1>Główne funkcje strony</h1>
+      <ul className={classes.list}>
         <li>Logowanie oraz rejestracja poprzez Firebase Authentication</li>
         <li>
           Przechowywanie i odczytywanie danych REST API - Firebase Realtime
@@ -28,6 +30,9 @@ function HomePage() {
         <li>
           W zakładce Podsumowanie, wyniki zebrane z trzech tabel wraz z
           możliwością wygenerowania PDF
+        </li>
+        <li>
+          Tabele z wynikami dla każdej z zakładek zawierające możliwość filtrowania, sortowania oraz usuwania danych
         </li>
       </ul>
     </main>

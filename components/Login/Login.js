@@ -81,6 +81,10 @@ function Login() {
           value={values.password}
           onChange={handleChange("password")}
           sx={{ bgcolor: 'white' }}
+          onKeyPress={(event) => {
+            if (event.key === 'Enter')
+              loginHandler(event);
+          }}
           endAdornment={
             <InputAdornment position="end">
               <IconButton

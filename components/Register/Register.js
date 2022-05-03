@@ -63,7 +63,7 @@ function Register() {
       setAddShowAlert(true);
       setTimeout(() => setAddShowAlert(false), 5000);
       setTimeout(() => router.push('/login'), 3000);
-     
+
     } catch (err) {
       setError(err);
     }
@@ -93,6 +93,10 @@ function Register() {
           value={values.password}
           onChange={handleChange("password")}
           sx={{ bgcolor: 'white' }}
+          onKeyPress={(event) => {
+            if (event.key === 'Enter')
+              signUpHandler(event);
+          }}
           endAdornment={
             <InputAdornment position="end" >
               <IconButton

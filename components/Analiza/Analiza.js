@@ -70,8 +70,8 @@ function Analiza() {
                 borderRadius: "5px 0 0 0",
                 "&.Mui-selected": {
                   background: "rgba(29,43,50, 0.8)",
-                color: 'white',
-                borderRadius: "5px 0px 0 0",
+                  color: 'white',
+                  borderRadius: "5px 0px 0 0",
                 },
               }}
             />
@@ -84,7 +84,7 @@ function Analiza() {
                 borderRadius: "0 5px 0 0",
                 "&.Mui-selected": {
                   background: "rgba(29,43,50, 0.8)",
-                color: 'white',
+                  color: 'white',
                   borderRadius: "0 5px 0 0",
                 },
               }}
