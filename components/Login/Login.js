@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from 'next/router'
 
@@ -56,6 +56,7 @@ function Login() {
     }
   };
 
+
   return (
     <div className={classes.container}>
       <TextField
@@ -74,7 +75,7 @@ function Login() {
         }}
       />
       <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+        <InputLabel htmlFor="outlined-adornment-password">Hasło</InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
           type={showPassword ? "text" : "password"}
