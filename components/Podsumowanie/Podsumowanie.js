@@ -29,6 +29,7 @@ import { columnsStruktura } from "./ColumnsStruktura";
 import { columnsMech } from './ColumnsMech';
 import classes from './Podsumowanie.module.css';
 import { Grid } from "@mui/material";
+import ImgModal from "../Modals/ImgModal";
 
 const WYTOPY = [
     "1",
@@ -53,6 +54,9 @@ const Podsumowanie = ({ html }) => {
 
     const [mechData, setMechData] = useState([]);
     const [mechProperties, setMechProperties] = useState([]);
+
+    const [showModal1, setShowModal1] = useState(false);
+    const [showModal2, setShowModal2] = useState(false);
 
     const searchIsValid = search !== null && search !== "";
     const searchInvalid = !searchIsValid && searchTouched;
@@ -239,6 +243,13 @@ const Podsumowanie = ({ html }) => {
         doc.save(`Raport_${search}`);
     };
 
+    const modalHandler1 = () => {
+        setShowModal1(prevState => !prevState);
+    }
+
+    const modalHandler2 = () => {
+        setShowModal2(prevState => !prevState);
+    }
 
     useEffect(() => {
         fetchResults();
@@ -420,14 +431,17 @@ const Podsumowanie = ({ html }) => {
                 </TableContainer>
             </Grid>}
         </Grid>
+        {showModal1 && <ImgModal onClose={modalHandler1} src={strukturaData.str1}></ImgModal>}
+        {showModal2 && <ImgModal onClose={modalHandler2} src={strukturaData.str2}></ImgModal>}
         {strukturaData && <Grid container>
             <Grid item xs={12} md={6} lg={6} className={classes.struktury}>
                 <h1>Struktura przed trawieniem</h1>
-                <img id="str1" src={strukturaData.str1} alt="" />
+                <img onClick={modalHandler1} id="str1" src={strukturaData.str1} alt="" />
+
             </Grid>
             <Grid item xs={12} md={6} lg={6} className={classes.struktury}>
                 <h1>Struktura po trawieniu</h1>
-                <img id="str2" src={strukturaData.str2} alt="" />
+                <img onClick={modalHandler2} id="str2" src={strukturaData.str2} alt="" />
             </Grid>
         </Grid>}
     </Fragment >

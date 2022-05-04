@@ -11,7 +11,7 @@ const ModalOverlay = (props) => {
     return (
         <div className={`${classes.modal} ${props.className}`}>
             <span className={classes.close} onClick={props.onClose}>X</span>
-            <div className={classes.wrapper}>
+            <div className={classes.wrapper} >
                 <Image className={classes.successIcon} width={'25px'} height={'25px'} src={props.src} alt="" />
                 <span>Sukces!</span>
                 {props.children}
