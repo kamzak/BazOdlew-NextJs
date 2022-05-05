@@ -2,7 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import classes from "./MainNavigation.module.css";
-import logo from "../static/logo.png";
+import logo from "../static/logo.svg";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/router";
 import SideMenu from "./SideMenu";
