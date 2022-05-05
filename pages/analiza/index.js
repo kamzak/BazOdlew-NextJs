@@ -7,13 +7,13 @@ function AnalizaPage() {
   return (
     <Fragment>
       <Head>
-        <title>BazOdlew - Analiza chemiczna</title>
+        <title>BazOdlew - Analiza składu chemicznego</title>
         <meta
           name="description"
-          content="Podstrona do zarządzania analizą chemiczną"
+          content="Podstrona do zarządzania analizą składu chemicznego"
         />
       </Head>
-      <h1>Analiza chemiczna</h1>
+      <h1>Analiza składu chemicznego</h1>
       <Analiza />
     </Fragment>
   );
