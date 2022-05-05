@@ -30,8 +30,8 @@ function MainNavigation() {
       <div>
         <Image
           className={classes.logo}
-          width={32}
-          height={35}
+          width={40}
+          height={40}
           alt="logo"
           layout="fixed"
           src={logo}
