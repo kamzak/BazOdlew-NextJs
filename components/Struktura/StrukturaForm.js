@@ -183,7 +183,7 @@ function StrukturaForm() {
 	const [zdj1, setZdj1] = useState("");
 	const [zdj1Touched, setZdj1Touched] = useState(false);
 
-	const zdj1Valid = zdj1 !== "" && zdj1 !== undefined;
+	const zdj1Valid = zdj1 !== "" && zdj1 !== undefined && zdj1 !== null;
 	const zdj1Invalid = !zdj1Valid && zdj1Touched;
 
 	const zdj1Blur = () => {
@@ -194,7 +194,7 @@ function StrukturaForm() {
 	const [zdj2, setZdj2] = useState("");
 	const [zdj2Touched, setZdj2Touched] = useState(false);
 
-	const zdj2Valid = zdj2 !== "" && zdj2 !== undefined;
+	const zdj2Valid = zdj2 !== "" && zdj2 !== undefined && zdj2 !== null;
 	const zdj2Invalid = !zdj2Valid && zdj2Touched;
 
 	const zdj2Blur = () => {
@@ -315,8 +315,8 @@ function StrukturaForm() {
 		grafIsValid,
 		perlIsValid,
 		ferIsValid,
-		zdj1Valid,
-		zdj2Valid,
+		zdj1Invalid,
+		zdj2Invalid,
 		zdj1,
 		zdj2
 	]);
