@@ -65,7 +65,6 @@ function MechTable() {
             pageSize={15}
             rowsPerPageOptions={[15]}
             checkboxSelection
-            rowHeight={100}
             onSelectionModelChange={(newSelectionModel) => {
               console.log(newSelectionModel);
               setSelectionModel(newSelectionModel);

@@ -290,7 +290,7 @@ const Podsumowanie = ({ html }) => {
                                             placement="top"
                                             arrow
                                             title={
-                                                "Wpisz lub numer wytopu"
+                                                "Wpisz numer wytopu aby pokazać wyniki..."
                                             }
                                         >
                                             <Button tabIndex={-1}>
