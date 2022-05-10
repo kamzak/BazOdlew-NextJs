@@ -19,13 +19,13 @@ import classes from "./Register.module.css";
 import Link from "next/link";
 
 import { database } from "../../config/firebase";
-import { ref, onValue, remove } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 
 import Modal from "../Modals/Modal";
 import successIcon from '../static/success.png';
 
 function Register() {
-  const { user, signUp } = useAuth();
+  const { signUp } = useAuth();
   const [error, setError] = useState(null);
 
   const [showAddAlert, setAddShowAlert] = useState(false);
@@ -36,6 +36,7 @@ function Register() {
   const showAlert = () => {
     setAddShowAlert(prevState => !prevState);
   }
+  const emailRef = useRef();
 
   const [fetchedCode, setFetchedCode] = useState(0);
 
@@ -45,8 +46,6 @@ function Register() {
     code: "",
     showPassword: false,
   });
-
-  const emailRef = useRef();
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -77,7 +76,7 @@ function Register() {
         setError(err);
       }
     } else {
-      setError('Nieprawidłowy kod');
+      setError('codeError');
     }
     
   };
@@ -155,7 +154,8 @@ function Register() {
           label="Password"
         />
       </FormControl>
-      {error !== null && <span className={classes.error}>Wprowadzono nieprawidłowe dane!</span>}
+      {error !== null && error !== 'codeError' && <span className={classes.error}>Wprowadzono nieprawidłowe dane!</span>}
+      {error === 'codeError' && <span className={classes.error}>Wprowadzono nieprawidłowy kod!</span>}
       <Button
         onClick={signUpHandler}
         className={classes.sendButton}
