@@ -147,7 +147,6 @@ export const columns = [
     },
     {
       field: "data",
-      type: "date",
       headerName: "Data modyfikacji",
       headerAlign: "center",
       align: "center",

@@ -13,25 +13,25 @@ const useInput = (
   const hasError = !valueIsValid && isTouched;
 
   const valueChangeHandler = (event) => {
-    if (event.target.value.length <= maxLength) {
-      if (canBeNegative) {
+    if (event.target.value.length <= maxLength) { /* weryfikacja czy liczba znaków wprowadzonych do pola jest mniejsza niż ta zadana w argumencie maxLength */
+      if (canBeNegative) { /* jeśli canBeNegative = true (wartość może być ujemna), wtedy przypisz wartość z pola do zmiennej enteredValue */
         setEnteredValue(event.target.value);
       }
-      if (!canBeNegative) {
-        if (maxHundret && !canBeNegative) {
-          if (event.target.value >= 0 && event.target.value <= 100) {
+      if (!canBeNegative) { /* jeśli canBeNegative = false (wartość nie może być ujemna*/ 
+        if (maxHundret && !canBeNegative) {/* jeśli maxHundret = true i canBeNegative = false */
+          if (event.target.value >= 0 && event.target.value <= 100) { /* jeśli wartość z pola jest w zakresie
+           0 - 100 przypisz ją do zmiennej enteredValue*/
             setEnteredValue(event.target.value);
           }
-        }else if (event.target.value >= 0) {
+        } else if (event.target.value >= 0) { /* jeśli wartość wpisana w pole jest większa lub równa 0 przypisz wartość do zmiennej enteredValue */
           setEnteredValue(event.target.value);
         }
       }
-
-    }
+    } /* zmiana isTouched na true, pole zostało kliknięte */
     setIsTouched(true);
   };
 
-  const inputBlurHandler = (event) => {
+  const inputBlurHandler = () => {
     setIsTouched(true);
   };
 

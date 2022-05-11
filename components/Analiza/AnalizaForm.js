@@ -75,13 +75,6 @@ function AnalizaForm() {
 
 	const wytBlur = () => {
 		setWytTouched(true);
-		// datas.map((item) => {
-		//   itemNr = item.nrWyt;
-		//   if (itemNr === wyt) {
-		//     let temp = `${itemNr} już istnieje w bazie!`;
-		//     setWytExist(temp);
-		//   }
-		// });
 	};
 
 	const nrWytChange = (event) => {
@@ -89,10 +82,6 @@ function AnalizaForm() {
 		if (event.target.value.length <= 6 && event.target.value >= 0) {
 			setNrWyt(event.target.value);
 		}
-
-		// if (event.target.value === "" || event.target.value !== itemNr) {
-		//   setWytExist("");
-		// }
 	};
 
 	// Gatunek
@@ -123,13 +112,14 @@ function AnalizaForm() {
 
 	// C
 	const {
-		value: C,
-		isValid: CIsValid,
-		hasError: CHasError,
-		valueChangeHandler: CChange,
-		inputBlurHandler: CBlur,
-		reset: resetC,
-	} = useInput((value) => value.trim() !== "", "7", false, true);
+		value: C, // przypisanie wartości z pola
+		isValid: CIsValid, // walidacja
+		hasError: CHasError, // czy wykryto błąd
+		valueChangeHandler: CChange, // zmiana wartości pola
+		inputBlurHandler: CBlur, // opuszczenie pola
+		reset: resetC, // wyczysczenie pola
+	} = useInput((value) => value.trim() !== "", "7", false, true); 
+
 
 	// Si
 	const {
@@ -243,14 +233,9 @@ function AnalizaForm() {
 
 	const submitHandler = (event) => {
 		event.preventDefault();
-
-		if (!wytValid) {
-			return;
-		}
 		// Formating date
 		const date = new Date();
-		const formatedDate = `${date.getDate()}/${date.getMonth() + 1
-			}/${date.getFullYear()}`;
+		const formatedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 
 		// Connecting database
 		const db = database;

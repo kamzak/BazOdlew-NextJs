@@ -190,7 +190,7 @@ function StrukturaForm() {
 		setZdj1Touched(true);
 	};
 
-	// Zdjęcie po trawieniem
+	// Zdjęcie po trawieniu
 	const [zdj2, setZdj2] = useState("");
 	const [zdj2Touched, setZdj2Touched] = useState(false);
 
