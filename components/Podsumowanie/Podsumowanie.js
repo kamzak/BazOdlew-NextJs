@@ -315,7 +315,7 @@ const Podsumowanie = ({ html }) => {
                 </Button>
             </Grid>
             <Grid item xs={3} md={3} lg={3}>
-                <Button
+                {analizaData || mechData || strukturaData && <Button
                     onClick={generatePdf}
                     className={classes.sendButton}
                     variant="contained"
@@ -323,7 +323,7 @@ const Podsumowanie = ({ html }) => {
                     endIcon={<PictureAsPdfIcon />}
                 >
                     Generuj PDF
-                </Button>
+                </Button>}
             </Grid>
         </Grid>
         <Grid container>
