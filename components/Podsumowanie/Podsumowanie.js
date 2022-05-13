@@ -57,8 +57,6 @@ const Podsumowanie = ({ html }) => {
 
     const [showModal1, setShowModal1] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
-    
-    const [showGenPdf, setShowGenPdf] = useState(true);
 
     const searchIsValid = search !== null && search !== "";
     const searchInvalid = !searchIsValid && searchTouched;
@@ -254,11 +252,6 @@ const Podsumowanie = ({ html }) => {
     }
 
     useEffect(() => {
-            if(analizaData || mechData || strukturaData) {
-                setShowGenPdf(true);
-            } else {
-                setShowGenPdf(false);
-            }
         fetchResults();
         formatPropertyAnaliza(columnsAnaliza);
         formatPropertyStruktura(columnsStruktura);
@@ -321,7 +314,7 @@ const Podsumowanie = ({ html }) => {
                     Szukaj
                 </Button>
             </Grid>
-            {showGenPdf && <Grid item xs={3} md={3} lg={3}>
+            {(analizaData || mechData || strukturaData) && <Grid item xs={3} md={3} lg={3}>
                 <Button
                     onClick={generatePdf}
                     className={classes.sendButton}
