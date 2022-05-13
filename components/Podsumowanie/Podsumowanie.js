@@ -330,8 +330,8 @@ const Podsumowanie = ({ html }) => {
                     endIcon={<PictureAsPdfIcon />}
                 >
                     Generuj PDF
-                </Button>}
-            </Grid>
+                </Button>
+            </Grid>}
         </Grid>
         <Grid container>
             {analizaData &&
