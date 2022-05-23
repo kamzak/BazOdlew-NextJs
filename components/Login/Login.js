@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from 'next/router'
 
@@ -28,7 +28,6 @@ function Login() {
   const [error, setError] = useState('');
 
   const router = useRouter();
-  const emailRef = useRef();
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -62,7 +61,7 @@ function Login() {
       <TextField
         label="E-mail"
         id="outlined-end-adornment"
-        ref={emailRef}
+        value={values.login}
         className={classes.input}
         onChange={handleChange("login")}
         sx={{ m: 1, width: "25ch", bgcolor: 'white' }}
