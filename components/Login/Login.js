@@ -20,8 +20,8 @@ import classes from "./Login.module.css";
 function Login() {
   const { login } = useAuth();
   const [values, setValues] = useState({
-    login: "",
-    password: "",
+    login: "admin@admin.com",
+    password: "adminadmin",
   });
   const [showPassword, setShowPassword] = useState(false);
 

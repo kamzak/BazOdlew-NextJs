@@ -65,7 +65,7 @@ const Podsumowanie = ({ html }) => {
 
 
     // Wyszukiwanie
-    const searchChange = (event, value) => {
+    const searchChange = (value) => {
         if (value === null) {
             setSearch('');
         } else {
